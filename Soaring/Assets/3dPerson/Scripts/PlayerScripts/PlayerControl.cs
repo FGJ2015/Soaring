@@ -82,24 +82,13 @@ public class PlayerControl : MonoBehaviour
         /*		if(Input.GetButtonDown ("Fly"))
                     fly = !fly;*/
         fly = true;
-//		aim = Input.GetButton("Aim");
 		h = Input.GetAxis("Horizontal");
 		v = Input.GetAxis("Vertical");
-//		run = Input.GetButton ("Run");
-//		sprint = Input.GetButton ("Sprint");
-//		isMoving = Mathf.Abs(h) > 0.1 || Mathf.Abs(v) > 0.1;
 	}
 
 	void FixedUpdate()
 	{
-		anim.SetBool (aimBool, IsAiming());
-		anim.SetFloat(hFloat, h);
-		anim.SetFloat(vFloat, v);
-		
-		// Fly
-		anim.SetBool (flyBool, fly);
 		GetComponent<Rigidbody>().useGravity = !fly;
-		anim.SetBool (groundedBool, IsGrounded ());
 		if(fly)
 			FlyManagement(h,v);
 
@@ -121,18 +110,20 @@ public class PlayerControl : MonoBehaviour
             transform.position = new Vector3(transform.position.x, flyMinY, transform.position.z);
         if (transform.position.y > flyMaxY)
             transform.position = new Vector3(transform.position.x, flyMaxY, transform.position.z);
-/*        timeCount += 0.01f;
-        var sinY = Mathf.Sin(timeCount)*5.0f;
+        timeCount += 0.04f;
+        var sinY = 1.0f + Mathf.Cos(timeCount) / 8.0f;
+        var sinX = Mathf.Cos(timeCount/1.7f) / 13.0f;
+        var sinZ = Mathf.Cos(timeCount/3.5f) / 15.0f;
         if (meshBody != null) {
-            meshBody.transform.localPosition = new Vector3(meshBody.transform.localPosition.x, sinY, meshBody.transform.localPosition.z);
-        }*/
+            meshBody.transform.localPosition = new Vector3(sinX, sinY, sinZ);
+        }
     }
 
     void JumpManagement()
 	{
 		if (GetComponent<Rigidbody>().velocity.y < 10) // already jumped
 		{
-			anim.SetBool (jumpBool, false);
+//			anim.SetBool (jumpBool, false);
 			if(timeToNextJump > 0)
 				timeToNextJump -= Time.deltaTime;
 		}
@@ -166,12 +157,12 @@ public class PlayerControl : MonoBehaviour
 				speed = walkSpeed;
 			}
 
-			anim.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
+//			anim.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
 		}
 		else
 		{
 			speed = 0f;
-			anim.SetFloat(speedFloat, 0f);
+//			anim.SetFloat(speedFloat, 0f);
 		}
 		GetComponent<Rigidbody>().AddForce(Vector3.forward*speed);
 	}
