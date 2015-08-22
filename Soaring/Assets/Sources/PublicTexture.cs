@@ -3,6 +3,9 @@ using System.Collections;
 [RequireComponent(typeof(SetTexture))]
 public class PublicTexture : SingletonMonoBehaviour<PublicTexture> {
     private SetTexture m_setTexture;
+    public SetTexture SetTexture {
+        get { return m_setTexture; }
+    }
 	// Use this for initialization
 	void Awake () {
         m_setTexture = GetComponent<SetTexture>();	
