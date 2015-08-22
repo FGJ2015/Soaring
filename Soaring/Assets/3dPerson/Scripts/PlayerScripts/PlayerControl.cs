@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
     public float walkSpeed = 0.15f;
 	public float runSpeed = 1.0f;
 	public float sprintSpeed = 2.0f;
-	public float flySpeed = 4.0f;
+	public float flySpeed = 8.0f;
 
 	public float turnSmoothing = 3.0f;
 	public float aimTurnSmoothing = 15.0f;
@@ -80,34 +80,30 @@ public class PlayerControl : MonoBehaviour
 	{
         // fly
         /*		if(Input.GetButtonDown ("Fly"))
-                    fly = !fly;*/
+                    fly = !fly; */
         fly = true;
-//		aim = Input.GetButton("Aim");
-		h = Input.GetAxis("Horizontal");
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        h = Input.acceleration.x;
+        v = Input.acceleration.y;
+#else
+ // h.v= -1..+1
+        h = Input.GetAxis("Horizontal");
 		v = Input.GetAxis("Vertical");
-//		run = Input.GetButton ("Run");
-//		sprint = Input.GetButton ("Sprint");
-//		isMoving = Mathf.Abs(h) > 0.1 || Mathf.Abs(v) > 0.1;
-	}
+#endif
+    }
 
 	void FixedUpdate()
 	{
-		anim.SetBool (aimBool, IsAiming());
-		anim.SetFloat(hFloat, h);
-		anim.SetFloat(vFloat, v);
-		
-		// Fly
-		anim.SetBool (flyBool, fly);
 		GetComponent<Rigidbody>().useGravity = !fly;
-		anim.SetBool (groundedBool, IsGrounded ());
-		if(fly)
-			FlyManagement(h,v);
-
-		else
-		{
-			MovementManagement (h, v, run, sprint);
-			JumpManagement ();
-		}
+        if (fly)
+        {
+            FlyManagement(h, v);
+//            Debug.Log("h=" + h + "  v=" + v);
+        } else {
+            MovementManagement(h, v, run, sprint);
+            JumpManagement();
+        }
 	}
 
     // fly
@@ -121,18 +117,28 @@ public class PlayerControl : MonoBehaviour
             transform.position = new Vector3(transform.position.x, flyMinY, transform.position.z);
         if (transform.position.y > flyMaxY)
             transform.position = new Vector3(transform.position.x, flyMaxY, transform.position.z);
-/*        timeCount += 0.01f;
-        var sinY = Mathf.Sin(timeCount)*5.0f;
+
+        float dis = Vector3.Distance(Vector3.zero, new Vector3(transform.position.x,0.0f, transform.position.z));
+        float ndis = dis / 480.0f;
+        float nndis = ndis * ndis * ndis;
+        Vector3 ndir = new Vector3(-(transform.position.x/dis), 0.0f, -(transform.position.z/dis));
+        if(dis>0.0f)
+            GetComponent<Rigidbody>().AddForce(ndir * flySpeed * nndis * 200.0f);
+
+        timeCount += 0.04f;
+        var sinY = 1.0f + Mathf.Cos(timeCount) / 8.0f;
+        var sinX = Mathf.Cos(timeCount/1.7f) / 13.0f;
+        var sinZ = Mathf.Cos(timeCount/3.5f) / 15.0f;
         if (meshBody != null) {
-            meshBody.transform.localPosition = new Vector3(meshBody.transform.localPosition.x, sinY, meshBody.transform.localPosition.z);
-        }*/
+            meshBody.transform.localPosition = new Vector3(sinX, sinY, sinZ);
+        }
     }
 
     void JumpManagement()
 	{
 		if (GetComponent<Rigidbody>().velocity.y < 10) // already jumped
 		{
-			anim.SetBool (jumpBool, false);
+//			anim.SetBool (jumpBool, false);
 			if(timeToNextJump > 0)
 				timeToNextJump -= Time.deltaTime;
 		}
@@ -166,12 +172,12 @@ public class PlayerControl : MonoBehaviour
 				speed = walkSpeed;
 			}
 
-			anim.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
+//			anim.SetFloat(speedFloat, speed, speedDampTime, Time.deltaTime);
 		}
 		else
 		{
 			speed = 0f;
-			anim.SetFloat(speedFloat, 0f);
+//			anim.SetFloat(speedFloat, 0f);
 		}
 		GetComponent<Rigidbody>().AddForce(Vector3.forward*speed);
 	}
