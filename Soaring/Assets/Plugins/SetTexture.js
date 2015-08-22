@@ -15,7 +15,7 @@ function Start () {
 function Update () {
 }
 
-function GetTexture(index, place) {
+function GetTexture(index:int, place:String) {
 	if ( g_bFlag_Assets )
 	{
 		while ( parseInt( index.ToString() ) >= g_length )
