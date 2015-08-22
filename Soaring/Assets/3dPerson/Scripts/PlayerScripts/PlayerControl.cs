@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
     public float walkSpeed = 0.15f;
 	public float runSpeed = 1.0f;
 	public float sprintSpeed = 2.0f;
-	public float flySpeed = 4.0f;
+	public float flySpeed = 8.0f;
 
 	public float turnSmoothing = 3.0f;
 	public float aimTurnSmoothing = 15.0f;
@@ -83,10 +83,11 @@ public class PlayerControl : MonoBehaviour
                     fly = !fly; */
         fly = true;
 
-#if UNITY_ANDROID && UNITY_EDITOR
-        h = Input.gyro.rotationRateUnbiased.x;
-        v = Input.gyro.rotationRateUnbiased.y;
+#if UNITY_ANDROID && !UNITY_EDITOR
+        h = Input.acceleration.x;
+        v = Input.acceleration.y;
 #else
+ // h.v= -1..+1
         h = Input.GetAxis("Horizontal");
 		v = Input.GetAxis("Vertical");
 #endif
@@ -95,14 +96,14 @@ public class PlayerControl : MonoBehaviour
 	void FixedUpdate()
 	{
 		GetComponent<Rigidbody>().useGravity = !fly;
-		if(fly)
-			FlyManagement(h,v);
-
-		else
-		{
-			MovementManagement (h, v, run, sprint);
-			JumpManagement ();
-		}
+        if (fly)
+        {
+            FlyManagement(h, v);
+//            Debug.Log("h=" + h + "  v=" + v);
+        } else {
+            MovementManagement(h, v, run, sprint);
+            JumpManagement();
+        }
 	}
 
     // fly
@@ -116,6 +117,14 @@ public class PlayerControl : MonoBehaviour
             transform.position = new Vector3(transform.position.x, flyMinY, transform.position.z);
         if (transform.position.y > flyMaxY)
             transform.position = new Vector3(transform.position.x, flyMaxY, transform.position.z);
+
+        float dis = Vector3.Distance(Vector3.zero, new Vector3(transform.position.x,0.0f, transform.position.z));
+        float ndis = dis / 480.0f;
+        float nndis = ndis * ndis * ndis;
+        Vector3 ndir = new Vector3(-(transform.position.x/dis), 0.0f, -(transform.position.z/dis));
+        if(dis>0.0f)
+            GetComponent<Rigidbody>().AddForce(ndir * flySpeed * nndis * 200.0f);
+
         timeCount += 0.04f;
         var sinY = 1.0f + Mathf.Cos(timeCount) / 8.0f;
         var sinX = Mathf.Cos(timeCount/1.7f) / 13.0f;
