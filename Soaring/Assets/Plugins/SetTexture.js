@@ -29,7 +29,7 @@ function GetTexture(index, place) {
 				return g_arAssets_Arm[index];
 		
 			case "body":
-				return g_arAssets_Arm[index];
+				return g_arAssets_Body[index];
 		}
 	}
 	else
