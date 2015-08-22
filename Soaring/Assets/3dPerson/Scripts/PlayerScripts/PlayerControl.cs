@@ -5,6 +5,12 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField]
     private Camera m_Camera;
+    [SerializeField]
+    private float flyMinY=10.0f;
+    [SerializeField]
+    private float flyMaxY=50.0f;
+    [SerializeField]
+    private GameObject meshBody;
 
     public float walkSpeed = 0.15f;
 	public float runSpeed = 1.0f;
@@ -51,7 +57,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Awake()
 	{
-		anim = GetComponent<Animator> ();
+		anim = GetComponentInChildren<Animator> ();
 		cameraTransform = Camera.main.transform;
 
 		speedFloat = Animator.StringToHash("Speed");
@@ -104,14 +110,25 @@ public class PlayerControl : MonoBehaviour
 		}
 	}
 
-	// fly
-	void FlyManagement(float horizontal, float vertical)
-	{
-		Vector3 direction = Rotating(horizontal, vertical);
-		GetComponent<Rigidbody>().AddForce(direction * flySpeed * 100 * (sprint?sprintFactor:1));
-	}
+    // fly
+    float timeCount = 0.0f;
+    void FlyManagement(float horizontal, float vertical)
+    {
+        Vector3 direction = Rotating(horizontal, vertical);
+        var speed = flySpeed;
+        GetComponent<Rigidbody>().AddForce(direction * flySpeed * 100 * (sprint ? sprintFactor : 1));
+        if (transform.position.y < flyMinY)
+            transform.position = new Vector3(transform.position.x, flyMinY, transform.position.z);
+        if (transform.position.y > flyMaxY)
+            transform.position = new Vector3(transform.position.x, flyMaxY, transform.position.z);
+/*        timeCount += 0.01f;
+        var sinY = Mathf.Sin(timeCount)*5.0f;
+        if (meshBody != null) {
+            meshBody.transform.localPosition = new Vector3(meshBody.transform.localPosition.x, sinY, meshBody.transform.localPosition.z);
+        }*/
+    }
 
-	void JumpManagement()
+    void JumpManagement()
 	{
 		if (GetComponent<Rigidbody>().velocity.y < 10) // already jumped
 		{
