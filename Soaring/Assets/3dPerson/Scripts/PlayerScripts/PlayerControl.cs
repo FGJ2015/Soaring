@@ -80,11 +80,17 @@ public class PlayerControl : MonoBehaviour
 	{
         // fly
         /*		if(Input.GetButtonDown ("Fly"))
-                    fly = !fly;*/
+                    fly = !fly; */
         fly = true;
-		h = Input.GetAxis("Horizontal");
+
+#if UNITY_ANDROID && UNITY_EDITOR
+        h = Input.gyro.rotationRateUnbiased.x;
+        v = Input.gyro.rotationRateUnbiased.y;
+#else
+        h = Input.GetAxis("Horizontal");
 		v = Input.GetAxis("Vertical");
-	}
+#endif
+    }
 
 	void FixedUpdate()
 	{
