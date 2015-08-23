@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 var g_arTextures = new ArrayList();
-var g_length = 10;
+var g_length = 20;
 var g_arAssets_Body : ArrayList = new ArrayList();
 var g_arAssets_Arm : ArrayList = new ArrayList();
 var g_url;

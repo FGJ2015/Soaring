@@ -36,7 +36,7 @@ public class Human : MonoBehaviour {
 	void Update () {
         transform.LookAt(Camera.main.transform.position);
         rot += 2.0f;
-        leftArm.transform.Rotate(new Vector3(0.0f, 0.0f, -4.0f));
-        righrArm.transform.Rotate(new Vector3(0.0f, 0.0f, 4.0f));
+        leftArm.transform.Rotate(new Vector3(0.0f, 0.0f, -2.0f));
+        righrArm.transform.Rotate(new Vector3(0.0f, 0.0f, 2.0f));
     }
 }

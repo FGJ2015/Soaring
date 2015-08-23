@@ -12,7 +12,7 @@ public class PublicTextureTest : MonoBehaviour {
         Texture2D bt = PublicTexture.GetTexture(0,"body");
         if (bt == null)
             return;
-        textureFlag = true;
+//        textureFlag = true;
         var mr = GetComponent<MeshRenderer>();
         var mt = mr.material;
         mt.mainTexture = bt;

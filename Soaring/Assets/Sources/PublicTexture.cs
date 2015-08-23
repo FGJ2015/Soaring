@@ -19,7 +19,7 @@ public class PublicTexture : SingletonMonoBehaviour<PublicTexture> {
     static int armCount = 0;
     static public Texture2D GetTextureArm()
     {
-        if (!Instance.m_setTexture.g_bFlag_Assets || Instance.m_setTexture.g_arAssets_Arm.Count<=0)
+        if (!Instance.m_setTexture.g_bFlag_Assets || Instance.m_setTexture.g_arAssets_Arm.Count<=0 || Instance.m_setTexture.g_arAssets_Body.Count <= 0)
             return null;
         armCount = armCount % Instance.m_setTexture.g_arAssets_Arm.Count;
         Texture2D tx=Instance.m_setTexture.GetTexture(armCount,"arm") as Texture2D;
@@ -32,7 +32,7 @@ public class PublicTexture : SingletonMonoBehaviour<PublicTexture> {
     static int bodyCount = 0;
     static public Texture2D GetTextureBody()
     {
-        if (!Instance.m_setTexture.g_bFlag_Assets || Instance.m_setTexture.g_arAssets_Body.Count<=0)
+        if (!Instance.m_setTexture.g_bFlag_Assets || Instance.m_setTexture.g_arAssets_Arm.Count <= 0 || Instance.m_setTexture.g_arAssets_Body.Count <= 0)
             return null;
         bodyCount = bodyCount % Instance.m_setTexture.g_arAssets_Body.Count;
         Texture2D tx = Instance.m_setTexture.GetTexture(bodyCount,"body") as Texture2D;
