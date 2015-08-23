@@ -60,20 +60,20 @@ function BuildTextures(drawws_assets) {
 		StartCoroutine("AddTexture_Arm");
 	}
 
-	Debug.Log ("completed");
+	//Debug.Log ("completed");
 	g_bFlag_Assets = true;
 }
 
 function AddTexture_Body() {
 	var www : WWW = new WWW (g_url);
-	Debug.Log (g_url);
+	//Debug.Log (g_url);
 	yield www;
 	g_arAssets_Body.Add(www.texture);
 }
 
 function AddTexture_Arm() {
 	var www : WWW = new WWW (g_url);
-	Debug.Log (g_url);
+	//Debug.Log (g_url);
 	yield www;
 	g_arAssets_Arm.Add(www.texture);
 }

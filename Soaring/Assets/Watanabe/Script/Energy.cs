@@ -5,7 +5,7 @@ public class Energy : MonoBehaviour {
 	bool flg = false;
 	// Use this for initialization
 	void Start () {
-	
+        flg = false;
 	}
 	
 	// Update is called once per frame
@@ -16,11 +16,11 @@ public class Energy : MonoBehaviour {
 	void OnTriggerEnter(Collider col){
 		if(flg == false){
 		if(col.gameObject.tag=="Player"){
-			Event();
-			flg = true;
+			//Event();
+            Player_ItemGet.Point++;
+            flg = true; Destroy(this.gameObject);
 		}
 	 	}
-		Destroy(this.gameObject);
 	}
 
 	//This event occers when player hits energy object

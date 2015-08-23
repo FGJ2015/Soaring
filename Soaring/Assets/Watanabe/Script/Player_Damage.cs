@@ -10,6 +10,7 @@ public class Player_Damage : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         scoreGUI = scoreObject.GetComponent<GUIText>();
+        HP = 3;
 	}
 	
 	// Update is called once per frame
@@ -18,7 +19,9 @@ public class Player_Damage : MonoBehaviour {
 		if(HP<=0){
 			HP=0;
 		}
-        scoreGUI.text = "残機：" + HP;
+        scoreGUI.text = "残機：" + HP+"\n"+"スコア：" + Player_ItemGet.Point;
+
+
 	}
 
 }
