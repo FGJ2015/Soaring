@@ -7,7 +7,7 @@ public class count : MonoBehaviour {
      public static int count_1;
      void Start()
      {
-        // count_1 = 0;
+         count_1 = 0;
      }
 
     /* void OnTriggerEnter(Collider other)

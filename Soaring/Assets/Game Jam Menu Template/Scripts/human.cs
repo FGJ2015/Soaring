@@ -10,9 +10,13 @@ public class human : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (count.count_1 >= 5)
+        {
+            Application.LoadLevel("Clear");
+        }
 	
 	}
-    void OnTriggerEnter(Collider col)
+    void OnTriggerStay(Collider col)
     {
         if (col.gameObject.tag == "Player")
         {

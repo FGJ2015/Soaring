@@ -19,7 +19,7 @@ public class Quotas : MonoBehaviour {
             if (child.name == "Text")
             {
                 target = child.gameObject.GetComponent<Text>();
-                target.text = "Quotas :"+count.count_1;
+                target.text = "Quotas :"+count.count_1+"/5";
 
             }
         }
