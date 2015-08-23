@@ -108,11 +108,14 @@ public class PlayerControl : MonoBehaviour
 
     // fly
     float timeCount = 0.0f;
+    float bv = 0.0f;
+    float bh = 0.0f;
     void FlyManagement(float horizontal, float vertical)
     {
         Vector3 direction = Rotating(horizontal, vertical);
         var speed = flySpeed;
-        GetComponent<Rigidbody>().AddForce(direction * flySpeed * 100 * (sprint ? sprintFactor : 1));
+
+        GetComponent<Rigidbody>().AddForce(direction * speed * 100 * (sprint ? sprintFactor : 1));
         if (transform.position.y < flyMinY)
             transform.position = new Vector3(transform.position.x, flyMinY, transform.position.z);
         if (transform.position.y > flyMaxY)
